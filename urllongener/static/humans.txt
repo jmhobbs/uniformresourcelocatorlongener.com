@@ -3,6 +3,10 @@
 	Twitter: @jmhobbs
 	From: Omaha, NE, USA
 
+	Idea: Alex Gates
+	Twitter: @alexpgates
+	From: Omaha, NE, USA
+
 /* SITE */
 	Language: English
 	Doctype: HTML5
