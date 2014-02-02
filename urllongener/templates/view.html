@@ -2,5 +2,5 @@
 
 {% block body %}
 <h2>Link Details</h2>
-<h4><strong>&rarr;</strong>&nbsp;&nbsp;<a href="{{ url_for("redirect", slug=slug) }}">{{ url }}</a></h4>
+<h4><strong>&rarr;</strong>&nbsp;&nbsp;<a href="{{ url_for("do_redirect", slug=slug) }}">{{ url }}</a></h4>
 {% endblock %}

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
+import time
 
-from flask import request, render_template, send_from_directory, abort, url_for
+from flask import request, render_template, send_from_directory, abort, url_for, redirect
 
 from .util import is_valid_url
-#from .util.ip import extract_remote_ip_from_headers
+from .util.ip import extract_remote_ip_from_headers
 from .extensions import redis
 
 
@@ -39,10 +40,11 @@ def register_views(app):
             while base_length + len(slug) < url_length:
                 slug += hashlib.sha1(url + "herpderp" + slug).hexdigest()
 
-            redis.set("urlongener:%s:url" % slug, url)
-
-            print slug
-            print url_for("view", slug=slug)
+            if not redis.get('urlongener:%s:url' % slug):
+                # TODO: Check for collisions
+                redis.set("urlongener:%s:url" % slug, url)
+                redis.set("urlongener:%s:created" % slug, time.time())
+                redis.set("urlongener:%s:originip" % slug, extract_remote_ip_from_headers(request.headers))
 
             return redirect(url_for("view", slug=slug))
 
@@ -60,7 +62,7 @@ def register_views(app):
         return render_template('view.html', url=url, slug=slug)
 
     @app.route('/<slug>')
-    def redirect(slug):
+    def do_redirect(slug):
         url = redis.get('urlongener:%s:url' % slug)
         if url:
             # TODO: Stats
