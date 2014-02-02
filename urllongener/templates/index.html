@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST">
+	<div class="input-group {% if error %}has-error{% endif %}">
+		<input type="text" class="form-control" placeholder="http://..." value="{{ url }}" name="url" id="url">
+		<div class="input-group-btn">
+			<button class="btn btn-default" type="submit">Longen</button>
+		</div>
+	</div>
+	{% if error %}<div class="has-error"><span class="help-block has-error">That doesn't look like a URL. HTTP/HTTPS only.</span></div>{% endif %}
+</form>
+{% endblock %}
