@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<div class="row">
 <h2>Link Details</h2>
 <h4><strong>&rarr;</strong>&nbsp;&nbsp;<a href="{{ url_for("do_redirect", slug=slug) }}">{{ url }}</a></h4>
+</div>
+<div class="row">
+	<p><strong>Created:</strong> {{ created }}</p>
+	<p><strong>Unique Redirects:</strong> {{ uniques_all_time }}</p>
+	<p><strong>Redirects:</strong> {{ redirects_all_time }}</p>
+</div>
 {% endblock %}

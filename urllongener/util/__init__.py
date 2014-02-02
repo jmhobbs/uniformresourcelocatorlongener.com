@@ -1,17 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import random
+import hashlib
 import re
-
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-ALPHABET_LEN = len(ALPHABET)
-
-
-def random_alphanumeric_string(length):
-    prefix = []
-    for i in xrange(0, length):
-        prefix.append(ALPHABET[random.randrange(0, ALPHABET_LEN)])
-    return ''.join(prefix)
+from .ip import extract_remote_ip_from_headers
 
 
 # Taken from Django via http://stackoverflow.com/questions/7160737/python-how-to-validate-a-url-in-python-malformed-or-not
@@ -26,3 +17,15 @@ URL_MATCHER = re.compile(
 
 def is_valid_url(url):
     return URL_MATCHER.match(url)
+
+
+def user_fingerprint(request, session):
+    '''This is toooootally the best way to identify uniques. /s'''
+    if 'fingerprint' not in session:
+        user_agent = request.headers.get('HTTP_USER_AGENT', '')
+        http_accept = request.headers.get('HTTP_ACCEPT', '')
+        accept_language = request.headers.get('HTTP_ACCEPT_LANGUAGE', '')
+        accept_encoding = request.headers.get('HTTP_ACCEPT_ENCODING', '')
+        ip = extract_remote_ip_from_headers(request.headers)
+        session['fingerprint'] = hashlib.sha1("%s %s %s %s %s" % (user_agent, http_accept, accept_language, accept_encoding, ip)).hexdigest()
+    return session['fingerprint']
