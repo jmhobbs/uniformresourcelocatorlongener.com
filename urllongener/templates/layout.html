@@ -29,10 +29,11 @@
 		{% endif %}
 	</head>
 	<body>
+		<h1 id="header">Uniform Resource Locator Longener</h1>
 		<div class="container container-narrow">
-			<h1 style="text-align: center;">Uniform Resource Locator Longener</h1>
 			{% block body %}{% endblock %}
 		</div>
+		<div class="container container-narrow" id="footer"><a href="{{ url_for("about") }}">About</a></div>
 		{% block script %}{% endblock %}
 		<!-- Served With Joy by {{ g_HOSTNAME }} -->
 	</body>
