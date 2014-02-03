@@ -12,11 +12,19 @@
 {% endif %}
 <div class="row">
 	<h2>Link Details</h2>
-	<h4><strong>&rarr;</strong>&nbsp;&nbsp;<a href="{{ url_for("do_redirect", slug=slug) }}">{{ url }}</a></h4>
+	<input type="text" class="form-control" id="longified" value="{{ url_for("do_redirect", slug=slug, _external=True) }}" />
+	<h4><a href="{{ url_for("do_redirect", slug=slug) }}">{{ url }}</a></h4>
 </div>
+<hr/>
 <div class="row">
 	<p><strong>Created:</strong> {{ created }}</p>
 	<p><strong>Unique Redirects:</strong> {{ uniques_all_time }}</p>
 	<p><strong>Redirects:</strong> {{ redirects_all_time }}</p>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+	document.getElementById("longified").onclick = function () { this.select(); };
+</script>
 {% endblock %}
