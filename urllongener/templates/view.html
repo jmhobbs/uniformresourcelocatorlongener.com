@@ -1,9 +1,18 @@
 {% extends "layout.html" %}
 
 {% block body %}
+{% if deeper %}
 <div class="row">
-<h2>Link Details</h2>
-<h4><strong>&rarr;</strong>&nbsp;&nbsp;<a href="{{ url_for("do_redirect", slug=slug) }}">{{ url }}</a></h4>
+	<img src="{{ url_for("static", filename="top.gif") }}" alt="We need to go deeper." id="deeper" />
+	<audio autoplay>
+		<source src="{{ url_for("static", filename="deeper.ogg") }}" type="audio/ogg">
+		<source src="{{ url_for("static", filename="deeper.mp3") }}" type="audio/mpeg">
+	</audio>
+</div>
+{% endif %}
+<div class="row">
+	<h2>Link Details</h2>
+	<h4><strong>&rarr;</strong>&nbsp;&nbsp;<a href="{{ url_for("do_redirect", slug=slug) }}">{{ url }}</a></h4>
 </div>
 <div class="row">
 	<p><strong>Created:</strong> {{ created }}</p>

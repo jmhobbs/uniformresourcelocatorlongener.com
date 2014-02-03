@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
+import urlparse
 
 import time
 from datetime import datetime
@@ -75,6 +76,9 @@ def register_views(app):
         if not url:
             return abort(404)
 
+        parsed = urlparse.urlparse(url)
+        deeper = parsed.netloc.lower() == app.config.get('SERVER_NAME', '').lower()
+
         created = float(redis.get("urlongener:%s:created" % slug) or 0)
         created = datetime.fromtimestamp(created)
         created = APP_TZ.localize(created)
@@ -82,7 +86,7 @@ def register_views(app):
         uniques_all_time = int(redis.scard('urllongener:%s:uniques' % slug) or 0)
         redirects_all_time = int(redis.get('urllongener:%s:stats:redirects' % slug) or 0)
 
-        return render_template('view.html', url=url, slug=slug, created=created, uniques_all_time=uniques_all_time, redirects_all_time=redirects_all_time)
+        return render_template('view.html', url=url, slug=slug, created=created, uniques_all_time=uniques_all_time, redirects_all_time=redirects_all_time, deeper=deeper)
 
     @app.route('/<slug>')
     def do_redirect(slug):
