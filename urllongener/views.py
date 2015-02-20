@@ -42,7 +42,7 @@ def register_views(app):
 
             slug = hashlib.sha1(url + "herpderp").hexdigest()
 
-            while base_length + len(slug) < url_length:
+            while base_length + len(slug) <= url_length:
                 slug += hashlib.sha1(url + "herpderp" + slug).hexdigest()
 
             if not redis.get('urlongener:%s:url' % slug):
